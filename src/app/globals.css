@@ -10,13 +10,15 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    /*前景色*/
     --foreground-rgb: 255, 255, 255;
+    /*开始*/
     --background-start-rgb: 0, 0, 0;
+    /*结束*/
     --background-end-rgb: 0, 0, 0;
   }
 }
-
-body {
+/*body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -24,4 +26,19 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}*/
+
+
+.theme{
+  transition: 1s all ease;
+}
+
+.light {
+  background-color: white;
+  color: #111;
+}
+
+.dark {
+  background-color: #111;
+  color: #bbb;
 }
