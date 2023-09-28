@@ -4,7 +4,8 @@ module.exports = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    "./src/app/assets/**/*.js"
+    "./src/app/assets/**/*.js",
+    "./public/**/*.html",
   ],
   theme: {
     screens: {
@@ -53,5 +54,6 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+  ],
 }

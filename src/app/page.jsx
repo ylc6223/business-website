@@ -51,7 +51,7 @@ export default function Home() {
                                     {/*    src="assets/images/hero/brand.svg"*/}
                                     {/*    alt="image"*/}
                                     {/*    className="mx-auto w-full max-w-[250px] opacity-50 transition duration-300 ease-in-out hover:opacity-100"*/}
-                                    {/*/>*/}
+                                    {/*!/>*/}
 
                                     <img
                                         src="http://s1l8a7o18.hn-bkt.clouddn.com/brand.svg?e=1695724422&token=x6reJMeSscEYCkZHK_kKf1T9vVJIUWne8kYzYqVU:ydmSo0QCdWhLxBtnkA--WST6iS0="

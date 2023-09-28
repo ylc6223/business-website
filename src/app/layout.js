@@ -1,8 +1,8 @@
-import Navbar from "@/components/navbar/Navbar";
 import "./globals.css";
 import "../assets/css/tailwind.css";
 import "../assets/css/animate.css";
 import { Inter, Roboto, Poppins } from "next/font/google";
+import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import { ThemeProvider } from "@/context/ThemeContext";
 import AuthProvider from "@/components/AuthProvider/AuthProvider";
@@ -19,13 +19,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
       <ThemeProvider>
-        <AuthProvider>
+        {/*<AuthProvider>*/}
           <div>
-            <Navbar />
+            <Navbar/>
             {children}
             <Footer />
           </div>
-        </AuthProvider>
+        {/*</AuthProvider>*/}
       </ThemeProvider>
       </body>
     </html>

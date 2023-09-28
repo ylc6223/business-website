@@ -3,46 +3,58 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import Logo from '@/assets/images/logo/logo-white.svg'
-import React, {useContext} from 'react'
+import React, { useContext, useState } from 'react'
 import styles from './navbar.module.css'
 import DarkModeToggle from '../DarkModeToggle/DarkModeToggle'
 import { signOut, useSession } from 'next-auth/react'
-import {ThemeContext} from "@/context/ThemeContext";
-
+import { ThemeContext } from '@/context/ThemeContext'
 const links = [
     {
         id: 1,
         title: 'Home',
-        url: '/'
+        url: '/',
+        navigable: true
     },
     {
         id: 2,
-        title: 'Portfolio',
-        url: '/portfolio'
+        title: 'About',
+        url: '/about',
+        navigable: true
     },
     {
         id: 3,
-        title: 'Blog',
-        url: '/blog'
+        title: 'Pricing',
+        url: '/pricing',
+        navigable: true
     },
     {
         id: 4,
-        title: 'About',
-        url: '/about'
+        title: 'Team',
+        url: '/team',
+        navigable: true
     },
     {
         id: 5,
         title: 'Contact',
-        url: '/contact'
+        url: '/contact',
+        navigable: true
     },
     {
         id: 6,
-        title: 'Dashboard',
-        url: '/dashboard'
+        title: 'Pages',
+        url: '',
+        navigable: false
+    },
+    {
+        id: 7,
+        title: 'Language',
+        url: '',
+        navigable: false
     }
 ]
 const Navbar = () => {
-    const { mode } = useContext(ThemeContext);
+    const [isShow, setIsShow] = useState(false)
+    const { mode } = useContext(ThemeContext)
     // const session = useSession()
     /*  return (
     <div className={styles.container}>
@@ -74,11 +86,7 @@ const Navbar = () => {
                     <div className="w-60 max-w-full px-4">
                         <Link href="index.html" className="navbar-logo block w-full py-5">
                             {/*<img src="@/assets/images/logo/logo-white.svg" alt="logo" className="header-logo w-full" />*/}
-                            <Image
-                                className={`header-logo w-full ${mode === "light"?'brightness-0 invert':''} `}
-                                src={Logo}
-                                alt="logo"
-                            />
+                            <Image className={`header-logo w-full ${mode === 'light' ? 'brightness-0 invert' : ''} `} src={Logo} alt="logo" />
                         </Link>
                         {/*<a href="index.html" className="navbar-logo block w-full py-5">*/}
                         {/*    <img src="assets/images/logo/logo-white.svg" alt="logo" className="header-logo w-full" />*/}
@@ -86,7 +94,47 @@ const Navbar = () => {
                     </div>
                     <div className="flex w-full items-center justify-between px-4">
                         <div>
-                            <button id="navbarToggler" className="absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden">
+                            {/*<div className={`fixed right-0 top-0 h-full z-[9999] overflow-y-scroll overflow-x-hidden opacity-100 visible transition-all duration-300 ease-in-out w-auto min-w-[180px] py-[3.75rem] px-[1.2rem] sm:pb-[1.875rem] sm:w-full sm:px-[2.4rem] bg-white text-black border-l border-solid border-[#0000000d] sm:right-[150%] sm:opacity-0 sm:invisible`}>*/}
+                            <div
+                                className={`fixed top-0 h-full z-[9999] overflow-y-scroll overflow-x-hidden opacity-100 visible transition-all duration-300 ease-in-out w-auto min-w-[180px] py-[3.75rem] px-[1.2rem] sm:pb-[1.875rem] sm:w-full sm:px-[2.4rem] bg-white text-black border-l border-solid border-[#0000000d] ${
+                                    isShow ? 'right-[0] opacity-1 visible' : 'right-[-150%] opacity-0 invisible'
+                                }`}
+                            >
+                                <ul className="p-0 m-0">
+                                    {links.map((item, index) => {
+                                        return (
+                                            <li key={index} className={`${item.navigable?'ud-menu-scroll':''} text-xl mt-0 my-4 ml-4 font-bold text-primary text-base`}>
+                                                {item.title}
+                                            </li>
+                                        )
+                                    })}
+                                    {/*                                    <li className="ud-menu-scroll text-xl mt-0 my-4 ml-4 font-bold text-primary text-base">Home</li>
+                                    <li className="ud-menu-scroll text-xl my-4 ml-4 font-bold text-primary text-base">About</li>
+                                    <li className="ud-menu-scroll text-xl my-4 ml-4 font-bold text-primary text-base">Pricing</li>
+                                    <li className="ud-menu-scroll text-xl my-4 ml-4 font-bold text-primary text-base">Team</li>
+                                    <li className="ud-menu-scroll text-xl my-4 ml-4 font-bold text-primary text-base">Contact</li>
+                                    <li className="text-xl my-4 ml-4 font-bold text-primary text-base">Pages</li>
+                                    <li className="text-xl my-4 ml-4 font-bold text-primary text-base">Language</li>*/}
+                                </ul>
+                                <button
+                                    id="navbarToggler"
+                                    onClick={() => {
+                                        setIsShow(!isShow)
+                                    }}
+                                    className="navbarTogglerActive absolute top-[1.875rem] right-4 m-0 mr-[-4px] translate-y-[-40%]"
+                                >
+                                    <span className="relative my-[6px] block h-[2px] w-[30px] bg-black"></span>
+                                    <span className="relative my-[6px] block h-[2px] w-[30px] bg-black"></span>
+                                    <span className="relative my-[6px] block h-[2px] w-[30px] bg-black"></span>
+                                </button>
+                            </div>
+                            <button
+                                id="navbarToggler"
+                                onClick={() => {
+                                    setIsShow(!isShow)
+                                }}
+                                className="absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
+                            >
                                 <span className="relative my-[6px] block h-[2px] w-[30px] bg-white"></span>
                                 <span className="relative my-[6px] block h-[2px] w-[30px] bg-white"></span>
                                 <span className="relative my-[6px] block h-[2px] w-[30px] bg-white"></span>
@@ -174,9 +222,7 @@ const Navbar = () => {
                                 </ul>
                             </nav>
                         </div>
-                        <div className="flex items-center">
-                            {/*<DarkModeToggle />*/}
-                        </div>
+                        <div className="darkmode-toggle hidden flex items-center">{/*<DarkModeToggle />*/}</div>
                         <div className="hidden justify-end pr-16 sm:flex lg:pr-0">
                             <a href="signin.html" className="loginBtn py-3 px-7 text-base font-medium text-white hover:opacity-70">
                                 Sign In
