@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import Logo from '@/assets/images/logo/logo-white.svg'
-import React, { useContext, useState } from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import styles from './navbar.module.css'
 import DarkModeToggle from '../DarkModeToggle/DarkModeToggle'
 import { signOut, useSession } from 'next-auth/react'
@@ -41,7 +41,7 @@ const links = [
     },
     {
         id: 6,
-        title: 'Pages',
+        title: 'Product',
         url: '',
         navigable: false
     },
@@ -54,6 +54,7 @@ const links = [
 ]
 const Navbar = () => {
     const [isShow, setIsShow] = useState(false)
+    let [scrolling,setScrolling] = useState(false)
     const { mode } = useContext(ThemeContext)
     // const session = useSession()
     /*  return (
@@ -76,8 +77,45 @@ const Navbar = () => {
       </div>
     </div>
   );*/
+
+    useEffect(() => {
+        window.onscroll = function () {
+            const ud_header = document.querySelector(".ud-header");
+            const sticky = ud_header.offsetTop;
+            // const logo = document.querySelector(".header-logo");
+
+            if (window.pageYOffset > sticky) {
+                ud_header.classList.add("sticky")
+                setScrolling(true)
+            } else {
+                ud_header.classList.remove("sticky");
+                setScrolling(false)
+            }
+
+            // // === logo change
+            // if (ud_header.classList.contains("sticky")) {
+            //     logo.src = "assets/images/logo/logo.svg";
+            // } else {
+            //     logo.src = "assets/images/logo/logo-white.svg";
+            // }
+
+            // show or hide the back-top-top button
+        }
+    })
+
     const handleClickDefaultBehavior = (e) => {
         e.preventDefault()
+    }
+    const handleScrollToView = (navigable=false,e) => {
+        console.log(navigable)
+        e.preventDefault();
+        if(!navigable){
+            return
+        }
+        document.querySelector(e.target.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+            offsetTop: 1 - 60,
+        });
     }
     return (
         <div className="ud-header absolute top-0 left-0 z-40 flex w-full items-center bg-transparent">
@@ -86,7 +124,8 @@ const Navbar = () => {
                     <div className="w-60 max-w-full px-4">
                         <Link href="index.html" className="navbar-logo block w-full py-5">
                             {/*<img src="@/assets/images/logo/logo-white.svg" alt="logo" className="header-logo w-full" />*/}
-                            <Image className={`header-logo w-full ${mode === 'light' ? 'brightness-0 invert' : ''} `} src={Logo} alt="logo" />
+                            {/*<Image className={`header-logo w-full ${mode === 'light' ? 'brightness-0 invert' : ''} `} src={Logo} alt="logo" />*/}
+                            <Image className={`header-logo w-full ${!scrolling ? 'brightness-0 invert' : ''} `} src={Logo} alt="logo" />
                         </Link>
                         {/*<a href="index.html" className="navbar-logo block w-full py-5">*/}
                         {/*    <img src="assets/images/logo/logo-white.svg" alt="logo" className="header-logo w-full" />*/}
@@ -96,25 +135,20 @@ const Navbar = () => {
                         <div>
                             {/*<div className={`fixed right-0 top-0 h-full z-[9999] overflow-y-scroll overflow-x-hidden opacity-100 visible transition-all duration-300 ease-in-out w-auto min-w-[180px] py-[3.75rem] px-[1.2rem] sm:pb-[1.875rem] sm:w-full sm:px-[2.4rem] bg-white text-black border-l border-solid border-[#0000000d] sm:right-[150%] sm:opacity-0 sm:invisible`}>*/}
                             <div
-                                className={`fixed top-0 h-full z-[9999] overflow-y-scroll overflow-x-hidden opacity-100 visible transition-all duration-300 ease-in-out w-auto min-w-[180px] py-[3.75rem] px-[1.2rem] sm:pb-[1.875rem] sm:w-full sm:px-[2.4rem] bg-white text-black border-l border-solid border-[#0000000d] ${
+                                className={`fixed top-0 h-screen z-[9999] overflow-y-scroll overflow-x-hidden opacity-100 visible transition-all duration-300 ease-in-out w-auto min-w-[180px] py-[3.75rem] px-[1.2rem] sm:pb-[1.875rem] sm:w-full sm:px-[2.4rem] bg-white text-black border-l border-solid border-[#0000000d] ${
                                     isShow ? 'right-[0] opacity-1 visible' : 'right-[-150%] opacity-0 invisible'
                                 }`}
                             >
                                 <ul className="p-0 m-0">
                                     {links.map((item, index) => {
                                         return (
-                                            <li key={index} className={`${item.navigable?'ud-menu-scroll':''} text-xl mt-0 my-4 ml-4 font-bold text-primary text-base`}>
-                                                {item.title}
+                                            <li key={index}>
+                                                <Link onClick={handleScrollToView.bind(this,item.navigable)} href={`#${item.title.toLowerCase()}`} className={`${item.navigable?'ud-menu-scroll':''} text-xl mt-0 my-4 ml-4 font-bold text-primary text-base`}>
+                                                    {item.title}
+                                                </Link>
                                             </li>
                                         )
                                     })}
-                                    {/*                                    <li className="ud-menu-scroll text-xl mt-0 my-4 ml-4 font-bold text-primary text-base">Home</li>
-                                    <li className="ud-menu-scroll text-xl my-4 ml-4 font-bold text-primary text-base">About</li>
-                                    <li className="ud-menu-scroll text-xl my-4 ml-4 font-bold text-primary text-base">Pricing</li>
-                                    <li className="ud-menu-scroll text-xl my-4 ml-4 font-bold text-primary text-base">Team</li>
-                                    <li className="ud-menu-scroll text-xl my-4 ml-4 font-bold text-primary text-base">Contact</li>
-                                    <li className="text-xl my-4 ml-4 font-bold text-primary text-base">Pages</li>
-                                    <li className="text-xl my-4 ml-4 font-bold text-primary text-base">Language</li>*/}
                                 </ul>
                                 <button
                                     id="navbarToggler"
@@ -145,53 +179,58 @@ const Navbar = () => {
                             >
                                 <ul className="blcok lg:flex">
                                     <li className="group relative">
-                                        <a
+                                        <Link
+                                            onClick={handleScrollToView.bind(this,true)}
                                             href="#home"
                                             className="ud-menu-scroll mx-8 flex py-2 text-base text-dark group-hover:text-primary lg:mr-0 lg:inline-flex lg:py-6 lg:px-0 lg:text-white lg:group-hover:text-white lg:group-hover:opacity-70"
                                         >
                                             Home
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li className="group relative">
-                                        <a
+                                        <Link
+                                            onClick={handleScrollToView.bind(this,true)}
                                             href="#about"
                                             className="ud-menu-scroll mx-8 flex py-2 text-base text-dark group-hover:text-primary lg:mr-0 lg:ml-7 lg:inline-flex lg:py-6 lg:px-0 lg:text-white lg:group-hover:text-white lg:group-hover:opacity-70 xl:ml-12"
                                         >
                                             About
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li className="group relative">
-                                        <a
+                                        <Link
+                                            onClick={handleScrollToView.bind(this,true)}
                                             href="#pricing"
                                             className="ud-menu-scroll mx-8 flex py-2 text-base text-dark group-hover:text-primary lg:mr-0 lg:ml-7 lg:inline-flex lg:py-6 lg:px-0 lg:text-white lg:group-hover:text-white lg:group-hover:opacity-70 xl:ml-12"
                                         >
                                             Pricing
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li className="group relative">
-                                        <a
+                                        <Link
+                                            onClick={handleScrollToView.bind(this,true)}
                                             href="#team"
                                             className="ud-menu-scroll mx-8 flex py-2 text-base text-dark group-hover:text-primary lg:mr-0 lg:ml-7 lg:inline-flex lg:py-6 lg:px-0 lg:text-white lg:group-hover:text-white lg:group-hover:opacity-70 xl:ml-12"
                                         >
                                             Team
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li className="group relative">
-                                        <a
+                                        <Link
+                                            onClick={handleScrollToView.bind(this,true)}
                                             href="#contact"
                                             className="ud-menu-scroll mx-8 flex py-2 text-base text-dark group-hover:text-primary lg:mr-0 lg:ml-7 lg:inline-flex lg:py-6 lg:px-0 lg:text-white lg:group-hover:text-white lg:group-hover:opacity-70 xl:ml-12"
                                         >
                                             Contact
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li className="submenu-item group relative">
-                                        <a
+                                        <Link
                                             href="#"
                                             onClick={handleClickDefaultBehavior}
                                             className="relative mx-8 flex py-2 text-base text-dark after:absolute after:right-1 after:top-1/2 after:mt-[-2px] after:h-2 after:w-2 after:-translate-y-1/2 after:rotate-45 after:border-b-2 after:border-r-2 after:border-current group-hover:text-primary lg:mr-0 lg:ml-8 lg:inline-flex lg:py-6 lg:pl-0 lg:pr-4 lg:text-white lg:after:right-0 lg:group-hover:text-white lg:group-hover:opacity-70 xl:ml-12"
                                         >
-                                            Pages
-                                        </a>
+                                            Product
+                                        </Link>
                                         <div className="submenu relative top-full left-0 hidden w-[250px] rounded-sm bg-white p-4 transition-[top] duration-300 group-hover:opacity-100 lg:invisible lg:absolute lg:top-[110%] lg:block lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full">
                                             <a href="about.html" className="block rounded py-[10px] px-4 text-sm text-body-color hover:text-primary">
                                                 About Page

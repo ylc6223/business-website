@@ -2,7 +2,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import Logo from "@/assets/images/logo/logo-white.svg";
-import React from "react";
+import React from 'react';
+import { useRef } from 'react';
 
 export default function Home() {
     const handleClickDefaultBehavior = (e) => {
@@ -691,9 +692,9 @@ export default function Home() {
                         />
                         <defs>
                             <linearGradient id="paint0_linear" x1="1308.65" y1="1142.58" x2="602.827" y2="-418.681" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#3056D3" stop-opacity="0.36" />
-                                <stop offset="1" stop-color="#F5F2FD" stop-opacity="0" />
-                                <stop offset="1" stop-color="#F5F2FD" stop-opacity="0.096144" />
+                                <stop stopColor="#3056D3" stopOpacity="0.36" />
+                                <stop offset="1" stopColor="#F5F2FD" stopOpacity="0" />
+                                <stop offset="1" stopColor="#F5F2FD" stopOpacity="0.096144" />
                             </linearGradient>
                         </defs>
                     </svg>
@@ -1420,7 +1421,7 @@ export default function Home() {
                                 <h3 className="mb-8 text-2xl font-semibold md:text-[26px]">Send us a Message</h3>
                                 <form>
                                     <div className="mb-6">
-                                        <label for="fullName" className="block text-xs text-dark">
+                                        <label htmlFor="fullName" className="block text-xs text-dark">
                                             Full Name*
                                         </label>
                                         <input
@@ -1431,7 +1432,7 @@ export default function Home() {
                                         />
                                     </div>
                                     <div className="mb-6">
-                                        <label for="email" className="block text-xs text-dark">
+                                        <label htmlFor="email" className="block text-xs text-dark">
                                             Email*
                                         </label>
                                         <input
@@ -1442,7 +1443,7 @@ export default function Home() {
                                         />
                                     </div>
                                     <div className="mb-6">
-                                        <label for="phone" className="block text-xs text-dark">
+                                        <label htmlFor="phone" className="block text-xs text-dark">
                                             Phone*
                                         </label>
                                         <input
@@ -1453,7 +1454,7 @@ export default function Home() {
                                         />
                                     </div>
                                     <div className="mb-6">
-                                        <label for="message" className="block text-xs text-dark">
+                                        <label htmlFor="message" className="block text-xs text-dark">
                                             Message*
                                         </label>
                                         <textarea
