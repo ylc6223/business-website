@@ -2,12 +2,25 @@
   "name": "business-website",
   "version": "0.1.0",
   "private": true,
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "prettier --write .",
+      "eslint  --fix"
+    ]
+  },
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:prettier": "prettier -c --write \"src/**/*\""
+    "lint:prettier": "prettier -c --write \"src/**/*\"",
+    "prepare": "husky install",
+    "commit": "git-cz"
   },
   "dependencies": {
     "autoprefixer": "10.4.16",
@@ -23,7 +36,6 @@
   "devDependencies": {
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "husky": "^8.0.3",
     "prettier": "^3.0.3"
   }
 }

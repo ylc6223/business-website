@@ -8,6 +8,7 @@ import styles from './navbar.module.css'
 import DarkModeToggle from '../DarkModeToggle/DarkModeToggle'
 import { signOut, useSession } from 'next-auth/react'
 import { ThemeContext } from '@/context/ThemeContext'
+import { usePathname } from 'next/navigation'
 const links = [
     {
         id: 1,
@@ -56,6 +57,7 @@ const Navbar = () => {
     const [isShow, setIsShow] = useState(false)
     let [scrolling,setScrolling] = useState(false)
     const { mode } = useContext(ThemeContext)
+    const pathname = usePathname()
     // const session = useSession()
     /*  return (
     <div className={styles.container}>
